@@ -1,17 +1,20 @@
-import dotenv
 import os
 import socket
-from lib import network
-from lib import messaging
+
+import dotenv
+
+from lib import messaging, network
 
 dotenv.load_dotenv()
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     messaging.setup(platform=os.environ.get("MESSAGING_PLATFORM"))
 
     interface_messages = []
     for interface in network.get_network_interfaces():
-        interface_messages.append(f"{interface.name}: {interface.ipv4_address}, {interface.ipv6_address}")
+        interface_messages.append(
+            f"{interface.name}: {interface.ipv4_address}, {interface.ipv6_address}"
+        )
     interface_messages = "\n".join(interface_messages)
 
     public_ips = network.get_public_ips()

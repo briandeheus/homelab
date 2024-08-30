@@ -1,8 +1,8 @@
 import dataclasses
-from typing import List
-import psutil
 import socket
+from typing import List
 
+import psutil
 import requests
 
 

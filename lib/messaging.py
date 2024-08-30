@@ -1,6 +1,8 @@
-import os
-import requests
 import logging
+import os
+
+import requests
+
 from lib.context import Context
 
 log = logging.getLogger(__name__)
@@ -33,19 +35,20 @@ class DiscordPlatform(MessagePlatform):
         if not self.webhook_url:
             raise EnvironmentError("DISCORD_WEBHOOK_URL is not set")
 
-        self.username = os.environ.get("DISCORD_USERNAME", kwargs.get("username", DiscordPlatform.username))
+        self.username = os.environ.get(
+            "DISCORD_USERNAME", kwargs.get("username", DiscordPlatform.username)
+        )
 
     def send(self, text: str):
-        data = {
-            "content": text,
-            "username": self.username
-        }
+        data = {"content": text, "username": self.username}
         response = requests.post(self.webhook_url, json=data)
         try:
             response.raise_for_status()
         except Exception as e:
             log.error("Failed to send message via Discord: %s", response.text)
-            raise MessagePlatformException(message=f"Failed to send message via Discord: {e}")
+            raise MessagePlatformException(
+                message=f"Failed to send message via Discord: {e}"
+            )
 
 
 def send(text: str):
@@ -57,7 +60,9 @@ def send(text: str):
 
 def setup(platform: str, **kwargs):
     if not platform:
-        log.warning("No messaging platform setup. Messages such notifications will not be sent.")
+        log.warning(
+            "No messaging platform setup. Messages such notifications will not be sent."
+        )
         return
 
     if platform == "discord":
