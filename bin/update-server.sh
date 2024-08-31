@@ -10,4 +10,6 @@ remote_host="$1"
 
 update_homelab $ssh_user $remote_host
 
-sudo systemctl restart homelab-server
+ssh "$ssh_user@$remote_host" << EOF
+    sudo systemctl restart homelab-server
+EOF
