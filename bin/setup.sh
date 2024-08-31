@@ -7,8 +7,8 @@ ssh_user="${SSH_USER:-$USER}"
 remote_host="$1"
 
 # Define the source and destination paths
-service_source_file="/tmp/homelab-agent.service"
-service_destination_file="/etc/systemd/system/homelab-agent.service"
+agent_service_source_file="/tmp/homelab-agent.service"
+agent_service_destination_file="/etc/systemd/system/homelab-agent.service"
 
 # First, we setup the repo.
 ssh "$ssh_user@$remote_host" << EOF
@@ -25,35 +25,6 @@ ssh "$ssh_user@$remote_host" << EOF
 
 EOF
 
-echo "We need to setup the agent, for this, we will ask a few questions..."
-
-read -p "Enter the Discord Webhook URL: " discord_webhook_url
-
-# Create the service file with the provided DISCORD_WEBHOOK_URL
-cat << EOF > $service_source_file
-[Unit]
-Description=Brian's Homelab Agent
-After=network-online.target
-Wants=network-online.target
-
-[Service]
-Type=oneshot
-User=homelab
-Group=homelab
-ExecStart=/home/homelab/homelab/.venv/bin/python /home/homelab/homelab/agent.py
-WorkingDirectory=/home/homelab/homelab
-Environment="PATH=/home/homelab/homelab/.venv/bin:/usr/bin:/bin"
-Environment="MESSAGING_PLATFORM=discord"
-Environment="DISCORD_WEBHOOK_URL=$discord_webhook_url"
-Environment="DISCORD_USERNAME=%H"
-RemainAfterExit=true
-
-[Install]
-WantedBy=default.target
-EOF
-
-# Next up we need to copy the system files over.
-scp $service_source_file "$ssh_user@$remote_host:$service_source_file"
 
 # Run the following commands on the remote host
 ssh "$ssh_user@$remote_host" << EOF
