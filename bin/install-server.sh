@@ -23,12 +23,12 @@ After=network-online.target
 Wants=network-online.target
 
 [Service]
-Type=oneshot
 User=homelab
 Group=homelab
 ExecStart=/home/homelab/homelab/.venv/bin/fastapi run /home/homelab/homelab/server.py --host 127.0.0.1 --port 8000
 WorkingDirectory=/home/homelab/homelab
 Environment="PATH=/home/homelab/homelab/.venv/bin:/usr/bin:/bin"
+Restart=always
 
 [Install]
 WantedBy=default.target
