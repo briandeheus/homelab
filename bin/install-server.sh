@@ -26,7 +26,7 @@ Wants=network-online.target
 Type=oneshot
 User=homelab
 Group=homelab
-ExecStart=/home/homelab/homelab/.venv/bin/python fastapi run /home/homelab/homelab/server.py --host 127.0.0.1 --port 8000
+ExecStart=/home/homelab/homelab/.venv/bin/fastapi run /home/homelab/homelab/server.py --host 127.0.0.1 --port 8000
 WorkingDirectory=/home/homelab/homelab
 Environment="PATH=/home/homelab/homelab/.venv/bin:/usr/bin:/bin"
 
