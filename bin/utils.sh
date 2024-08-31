@@ -16,3 +16,17 @@ install_homelab() {
     pip install -r requirements.txt
 EOF
 }
+
+update_homelab() {
+  ssh_user=$1
+  remote_host=$2
+
+  ssh "$ssh_user@$remote_host" << EOF
+    sudo su - homelab
+    cd homelab
+    git fetch origin main
+    python -m venv .venv
+    source .venv/bin/activate
+    pip install -r requirements.txt
+EOF
+}
