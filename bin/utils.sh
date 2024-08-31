@@ -14,6 +14,7 @@ install_homelab() {
     python -m venv .venv
     source .venv/bin/activate
     pip install -r requirements.txt
+    exit
 EOF
 }
 
@@ -28,5 +29,6 @@ update_homelab() {
     python -m venv .venv
     source .venv/bin/activate
     pip install -r requirements.txt
+    exit
 EOF
 }
