@@ -25,7 +25,7 @@ update_homelab() {
   ssh "$ssh_user@$remote_host" << EOF
     sudo su - homelab
     cd homelab
-    git fetch origin main
+    git pull
     python -m venv .venv
     source .venv/bin/activate
     pip install -r requirements.txt
