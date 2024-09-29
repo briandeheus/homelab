@@ -8,6 +8,16 @@ templates = Jinja2Templates(directory="templates")
 app = FastAPI()
 
 
+@app.get("/mooscles")
+def landing(request: Request) -> HTMLResponse:
+    github_commit_hash = get_short_commit_hash()
+    return templates.TemplateResponse(
+        request=request,
+        name="mooscles.html",
+        context={"commit_hash": github_commit_hash},
+    )
+
+
 @app.get("/")
 def landing(request: Request) -> HTMLResponse:
     github_commit_hash = get_short_commit_hash()
